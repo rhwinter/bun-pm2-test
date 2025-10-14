@@ -1,3 +1,4 @@
-# dependencies (bun install)
+.DS_Store
+**/.DS_Store
 **/*.log
 **/node_modules
