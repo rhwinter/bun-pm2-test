@@ -1,0 +1,49 @@
+<html>
+<head>
+    <title>Bun/Node + pm2 Cluster Test</title>
+    <script>
+        function doFetch(id) {
+            console.log("starting fetch", id)
+            const start = Date.now();
+            // Add cache-busting query param to help encourage separate connections
+            fetch(`/api?req=${id}&t=${Date.now()}`, {
+                // This header hints to use separate connections
+                headers: {
+                    'Connection': 'close'
+                }
+            })
+                .then(response => response.text())
+                .then(data => {
+                    const duration = Date.now() - start;
+                    console.log(`Finished fetch ${id} in ${duration}ms`);
+                    const resultsDiv = document.getElementById('results');
+                    const li = document.createElement('li');
+                    const span = document.createElement('span');
+                    span.textContent = `Request ${id}, fetch completed in ${duration}ms: `;
+                    li.appendChild(span);
+                    const span2 = document.createElement('span');
+                    span2.textContent = data;
+                    span2.style.fontFamily = 'monospace';
+                    // span2.style.marginLeft = '10px';
+                    li.appendChild(span2);
+                    resultsDiv.appendChild(li);
+                })
+                .catch(error => console.error('Error fetching /test:', error));
+        }
+        async function doFetches() {
+            Promise.all([
+                doFetch(1),
+                doFetch(2),
+                doFetch(3)
+            ])
+        }
+        // when page loads
+        window.onload = doFetches;
+    </script>
+</head>
+<body style="font-family: sans-serif">
+    <h1>Bun + pm2 Cluster Test</h1>
+    <p>This is a simple test page for Bun with PM2 in cluster mode.</p>
+    <ul id="results"></ul>
+</body>
+</html>
