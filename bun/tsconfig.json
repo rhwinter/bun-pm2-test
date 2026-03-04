@@ -24,6 +24,11 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+
+    // Path aliases, bm2 doesn't seem to export its types properly
+    "paths": {
+      "bm2/types": ["./node_modules/bm2/src/types.ts"]
+    }
   }
 }

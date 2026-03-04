@@ -5,4 +5,9 @@ module.exports = {
   exec_mode : "cluster",
   instances : "3",
   log_file: './bunapp.log',
+  env: {
+      name: "bunapp-pm2",
+      port: "5555",
+      manager: "pm2",
+    }
 };
